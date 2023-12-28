@@ -194,12 +194,12 @@ command(
 > `rest` and `optional` are exclusive.  
 > Only one of them may be specified for a single route.
 
-### Subcommands
+### Route (Subcommands)
 
-The `add` function defines a subcommand.
+The `add` function defines a route.
 
 > [!NOTE]  
-> Root `options` are inherited by all subcommands.
+> Root `options` and `codes` are inherited by all route.
 
 ```js
 import { command } from '@jill64/ts-cli'
