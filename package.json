@@ -1,0 +1,55 @@
+{
+  "name": "@jill64/ts-cli",
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "!**/*.test.*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc && npx publint",
+    "prepack": "npm run build",
+    "test": "vitest",
+    "lint": "npx eslint . && npx depcheck",
+    "format": "npx prettier -w ."
+  },
+  "prettier": "@jill64/prettier-config",
+  "devDependencies": {
+    "@jill64/eslint-config-ts": "1.0.7",
+    "@jill64/prettier-config": "1.0.0",
+    "@jill64/transform": "1.0.0",
+    "@types/node": "20.10.5",
+    "typescript": "5.3.3",
+    "vitest": "1.1.0"
+  },
+  "homepage": "https://github.com/jill64/ts-cli#readme",
+  "license": "MIT",
+  "bugs": "https://github.com/jill64/ts-cli/issues",
+  "author": {
+    "name": "jill64",
+    "email": "intents.turrets0h@icloud.com",
+    "url": "https://github.com/jill64",
+    "image": "https://avatars.githubusercontent.com/u/143883742?v=4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jill64/ts-cli.git",
+    "image": "https://opengraph.githubassets.com/df00e132402814de4a1e106711df5da59396e4a92f56f03ca23a1471cc0c722b/jill64/ts-cli"
+  },
+  "description": "＞ Easy Node CLI creation with opinionated POSIX-like defaults",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "node",
+    "type-safe",
+    "wip"
+  ]
+}
