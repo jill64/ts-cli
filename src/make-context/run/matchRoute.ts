@@ -16,5 +16,5 @@ export const matchRoute =
       .toSorted((a, b) => a.length - b.length)
       .find((route) => route.startsWith(input))
 
-    return matched as keyof T['routes'] | undefined
+    return matched as keyof T | undefined
   }

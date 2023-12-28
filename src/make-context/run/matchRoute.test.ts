@@ -17,34 +17,35 @@ describe('matchRoute', () => {
     ['test route']: {
       config,
       handler: () => {}
+    },
+    ['test start']: {
+      config,
+      handler: () => {}
     }
   })
 
   test('Empty', () => {
-    const empty = match([])
-    expect(empty).toEqual(undefined)
-
-    const emptyStr = match([''])
-    expect(emptyStr).toEqual(undefined)
+    expect(match([])).toEqual(undefined)
+    expect(match([''])).toEqual(undefined)
   })
 
   test('help', () => {
-    const help = match(['--help'])
-    expect(help).toEqual(undefined)
+    expect(match(['--help'])).toEqual(undefined)
   })
 
   test('invalidRoute', () => {
-    const invalidRoute = match(['invalid route'])
-    expect(invalidRoute).toEqual(undefined)
+    expect(match(['invalid route'])).toEqual(undefined)
   })
 
   test('route', () => {
-    const route = match(['-v', 'route'])
-    expect(route).toEqual('route')
+    expect(match(['-v', 'route'])).toEqual('route')
   })
 
   test('test route', () => {
-    const route = match(['-v', 'test', 'route'])
-    expect(route).toEqual('test route')
+    expect(match(['-v', 'test', 'route'])).toEqual('test route')
+  })
+
+  test('test start', () => {
+    expect(match(['-V', 'test', '--quiet', 'start'])).toEqual('test start')
   })
 })

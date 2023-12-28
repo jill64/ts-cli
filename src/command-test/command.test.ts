@@ -1,8 +1,11 @@
-import { test } from 'vitest'
+import { describe } from 'node:test'
+import { expect, test } from 'vitest'
 import { command } from '../command.js'
 
-test('command', () => {
-  const ctx = command(
+describe('command-e2e', () => {
+  let fired = [0, 0, 0]
+
+  const cmd = command(
     'example',
     {
       args: [['arg1', 'arg1 description']],
@@ -14,12 +17,15 @@ test('command', () => {
         }
       }
     },
-    ({ args: { arg1 }, logger }) => {
-      logger.info(arg1)
+    ({ args: { arg1 }, options, logger }) => {
+      test('root', () => {
+        expect(arg1).toBe('arg1-value')
+        expect(options?.['root-option']).toBe('root-option-value')
+        expect(logger).toBeDefined()
+      })
+      fired[0] += 1
     }
   )
-
-  const cmd = ctx
     .add(
       'test',
       {
@@ -33,43 +39,56 @@ test('command', () => {
         }
       },
       ({ logger, args, options }) => {
-        args.arg2
-        options?.['root-option']
-        logger.info('test')
+        test('test route', () => {
+          expect(args.arg2).toBe('arg2-value')
+          expect(options?.['test-option']).toBe('test-option-value')
+          expect(options?.['root-option']).toBe('root-option-value')
+          expect(logger).toBeDefined()
+        })
+        fired[1] += 1
       }
     )
     .add('test start', () => {
-      console.log('test start')
+      fired[2] += 1
     })
 
   cmd.execute({
     args: {
-      arg1: 'value'
+      arg1: 'arg1-value'
     },
     options: {
-      help: true,
-      'root-option': 'value'
+      'root-option': 'root-option-value'
     }
   })
+
+  cmd.run(['', '', 'arg1-value', '-r', 'root-option-value'])
 
   cmd.invoke.test({
     args: {
-      arg2: 'value'
+      arg2: 'arg2-value'
     },
     options: {
-      help: true,
-      'root-option': 'value',
-      'test-option': 'value'
+      'root-option': 'root-option-value',
+      'test-option': 'test-option-value'
     }
   })
+
+  cmd.run([
+    '',
+    '',
+    'test',
+    '--root-option',
+    'root-option-value',
+    'arg2-value',
+    '-t',
+    '--test-option-value'
+  ])
 
   cmd.invoke['test start']()
 
-  cmd.invoke['test start']({
-    options: {
-      help: true
-    }
-  })
+  cmd.run(['', '', '-V', 'test', '--quiet', 'start'])
 
-  cmd.run(process.argv)
+  test('result', () => {
+    expect(fired).toEqual([2, 2, 2])
+  })
 })

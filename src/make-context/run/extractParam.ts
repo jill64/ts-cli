@@ -7,7 +7,11 @@ import { NormalizedArguments } from '../../types/util/NormalizedArguments.js'
 import { NormalizedOptions } from '../../types/util/NormalizedOptions.js'
 import { alignmentArguments } from '../../utils/alignmentArguments.js'
 
-export const extractParam = <T extends Config>(config: T, args: string[]) => {
+export const extractParam = <T extends Config>(
+  config: T,
+  args: string[],
+  route?: string
+) => {
   const options = transform(config.options ?? {}, ([k, v]) => [
     k,
     {
@@ -31,12 +35,16 @@ export const extractParam = <T extends Config>(config: T, args: string[]) => {
     strict: true
   })
 
+  const routeDepth = route?.split(' ').length ?? 0
   const alignedArgs = alignmentArguments(config.args)
 
   const param = {
     args: (config.args
       ? Object.fromEntries(
-          alignedArgs.map((k, index) => [k, result.positionals[index]])
+          alignedArgs.map((k, index) => [
+            k,
+            result.positionals[index + routeDepth]
+          ])
         )
       : {}) as NormalizedArguments<T['args']>,
     options: (config.options
@@ -46,14 +54,14 @@ export const extractParam = <T extends Config>(config: T, args: string[]) => {
       ? Object.fromEntries(
           alignmentArguments(config.optional).map((k, index) => [
             k,
-            result.positionals[alignedArgs.length + index]
+            result.positionals[alignedArgs.length + index + routeDepth]
           ])
         )
       : {}) as T extends { optional: ArgumentDescriptions }
       ? NormalizedArguments<T['optional']>
       : never,
     rest: ('rest' in config && config.rest
-      ? result.positionals.slice(alignedArgs.length)
+      ? result.positionals.slice(alignedArgs.length + routeDepth)
       : {}) as T extends {
       rest: ArgumentDescriptions
     }
