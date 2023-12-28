@@ -1,10 +1,9 @@
-import { version } from '../../package.json' assert { type: 'json' }
 import { command } from '../command.js'
 
 command(
   'echo',
   {
-    version,
+    version: '1.0.0',
     args: {
       arg1: 'Arg1 Description'
     }
