@@ -45,8 +45,6 @@ npm i @jill64/ts-cli
 
 The `command` function defines a single CLI command and serves as the root for all other subcommands.
 
-<!-- command-test min min -->
-
 ```js
 import { command } from '@jill64/ts-cli'
 
@@ -56,8 +54,6 @@ command('example', () => {
 ```
 
 ### Auto Generated Help
-
-<!-- command-test min help -->
 
 Out of box, help is always generated automatically.  
 Also, if the command has a help option (`-h`, `--help`), it will display help and exit. (No handler is executed).
@@ -71,8 +67,6 @@ This value is used to display the version of the command (`-v`, `--version`).
 
 > [!NOTE]  
 > If this value is set, handler functions will not be executed when the `--version` and `-v` options are specified.
-
-<!-- command-test root version -->
 
 ```js
 import { command } from '@jill64/ts-cli'
@@ -91,8 +85,6 @@ command(
 ### Positional Arguments
 
 The `args` property of the command definition is used to define positional arguments.
-
-<!-- command-test root args -->
 
 ```js
 import { command } from '@jill64/ts-cli'
@@ -127,8 +119,6 @@ These have their own limitations
 > [!TIP]
 > Some of these restrictions are found in [POSIX Utility Conventions](https://pubs.opengroup.org/onlinepubs/9699919799/) and [POSIX Rationale Utility Conventions](https://pubs.opengroup.org/onlinepubs/9699919799/).
 
-<!-- command-test root options -->
-
 ```js
 import { command } from '@jill64/ts-cli'
 
@@ -141,7 +131,7 @@ command(
         description: 'Verbose output'
       },
       host: {
-        name: 'h',
+        alias: 'h',
         description: 'Host name',
         type: 'string'
       }
@@ -157,8 +147,6 @@ command(
 ### Optional Arguments
 
 The `optional` property of the command definition is used to define optional arguments.
-
-<!-- command-test root optional -->
 
 ```js
 import { command } from '@jill64/ts-cli'
@@ -183,8 +171,6 @@ command(
 
 Edge cases must accept arguments of variable length.
 This can be accomplished using the `rest` property.
-
-<!-- command-test root rest -->
 
 ```js
 import { command } from '@jill64/ts-cli'
@@ -215,8 +201,6 @@ The `add` function defines a subcommand.
 > [!NOTE]  
 > Root `options` are inherited by all subcommands.
 
-<!-- command-test add-routes base -->
-
 ```js
 import { command } from '@jill64/ts-cli'
 
@@ -244,8 +228,6 @@ command('example', () => {
 ### Run a command
 
 The `run` function executes the command immediately using `process.argv`.
-
-<!-- command-test run -->
 
 ```js
 import { command } from '@jill64/ts-cli'
@@ -278,9 +260,6 @@ export const { execute, invoke } = command('example', () => {
     // ...
   })
 ```
-
-<!-- command-test run execute -->
-<!-- command-test run invoke -->
 
 ```js
 import { execute, invoke } from 'index.js'
@@ -323,8 +302,6 @@ These can also be defined together to add verification and documentation of the 
 
 - The range of the exit code is an integer from 0 to 255.
 - If no exit code is specified, the return value is automatically set by node.
-
-<!-- command-test root exit-code -->
 
 ```js
 import { command } from '@jill64/ts-cli'
