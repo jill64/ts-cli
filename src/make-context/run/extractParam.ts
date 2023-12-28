@@ -27,24 +27,44 @@ export const extractParam = <T extends Config>(
     } satisfies ParseArgsOptionConfig
   ])
 
+  const routeDepth = route?.split(' ').length ?? 0
+  const routed = route ? args.slice(routeDepth) : args
+
+  const { tokens } = parseArgs({
+    options,
+    args: routed,
+    allowPositionals: true,
+    tokens: true,
+    strict: false
+  })
+
+  const alignedArgs = alignmentArguments(config.args)
+  const positionals = tokens.filter((t) => t.kind === 'positional')
+
+  const hasRest =
+    'rest' in config && config.rest && positionals.length > alignedArgs.length
+
+  const restIndex = hasRest
+    ? alignedArgs.length
+      ? (positionals[alignedArgs.length - 1]?.index ?? 0) + 1
+      : 0
+    : routed.length
+
+  const truncated = routed.slice(0, restIndex)
+  const rest = routed.slice(restIndex)
+
   const result = parseArgs({
     options,
-    args,
+    args: truncated,
     allowPositionals: true,
     tokens: true,
     strict: true
   })
 
-  const routeDepth = route?.split(' ').length ?? 0
-  const alignedArgs = alignmentArguments(config.args)
-
   const param = {
     args: (config.args
       ? Object.fromEntries(
-          alignedArgs.map((k, index) => [
-            k,
-            result.positionals[index + routeDepth]
-          ])
+          alignedArgs.map((k, index) => [k, result.positionals[index]])
         )
       : {}) as NormalizedArguments<T['args']>,
     options: (config.options
@@ -54,15 +74,13 @@ export const extractParam = <T extends Config>(
       ? Object.fromEntries(
           alignmentArguments(config.optional).map((k, index) => [
             k,
-            result.positionals[alignedArgs.length + index + routeDepth]
+            result.positionals[alignedArgs.length + index]
           ])
         )
       : {}) as T extends { optional: ArgumentDescriptions }
       ? NormalizedArguments<T['optional']>
       : never,
-    rest: ('rest' in config && config.rest
-      ? result.positionals.slice(alignedArgs.length + routeDepth)
-      : {}) as T extends {
+    rest: (hasRest ? rest : []) as T extends {
       rest: ArgumentDescriptions
     }
       ? string[]
