@@ -6,7 +6,7 @@ import { InvokeParam } from './InvokeParam.js'
 export type InvokeHandler<T extends Config> = IsEmptyConfig<T> extends true
   ? () => RouteHandlerReturn<T>
   : T extends {
-      args: unknown
-    }
-  ? (param: InvokeParam<T>) => RouteHandlerReturn<T>
-  : (param?: InvokeParam<T>) => RouteHandlerReturn<T>
+        args: unknown
+      }
+    ? (param: InvokeParam<T>) => RouteHandlerReturn<T>
+    : (param?: InvokeParam<T>) => RouteHandlerReturn<T>

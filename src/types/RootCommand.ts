@@ -14,7 +14,10 @@ export type RootCommand = {
     // @ts-expect-error TODO: fix this
     Schema<RootConfig<T>>
   >
-  (name: string, handler: RouteHandler<RootConfig<Empty>>): Context<
+  (
+    name: string,
+    handler: RouteHandler<RootConfig<Empty>>
+  ): Context<
     // @ts-expect-error TODO: fix this
     Schema<RootConfig<Empty>>
   >

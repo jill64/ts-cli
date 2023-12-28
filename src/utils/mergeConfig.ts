@@ -15,4 +15,4 @@ export const mergeConfig = <R extends Config, C extends Config>(
       ...root.options,
       ...config.codes
     }
-  } as MergeConfig<R, C>)
+  }) as MergeConfig<R, C>
