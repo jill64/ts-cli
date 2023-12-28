@@ -40,7 +40,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jill64/ts-cli.git",
-    "image": "https://opengraph.githubassets.com/df00e132402814de4a1e106711df5da59396e4a92f56f03ca23a1471cc0c722b/jill64/ts-cli"
+    "image": "https://opengraph.githubassets.com/59e6a4029f25b818e068d082b2969ac08df1cc6c7069522a275332dcbca835c1/jill64/ts-cli"
   },
   "description": "＞ Easy Node CLI creation with opinionated POSIX-like defaults",
   "publishConfig": {
