@@ -1,6 +1,6 @@
 {
   "name": "@jill64/ts-cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "files": [
     "dist",
@@ -13,6 +13,7 @@
     }
   },
   "scripts": {
+    "dev": "npx tsx src/command-test/mock.test.ts",
     "build": "tsc && npx publint",
     "prepack": "npm run build",
     "test": "vitest",

@@ -1,3 +1,4 @@
+import { Config } from '../types/context/Config.js'
 import { Schema } from '../types/context/Schema.js'
 import { alignmentArguments } from '../utils/alignmentArguments.js'
 import { pickRoute } from '../utils/pickRoute.js'
@@ -12,21 +13,27 @@ export const help = <
   const { name, root, routes } = schema
   const { config } = pickRoute(schema, route)
 
+  const generateUsage = (config: Config, route?: string) =>
+    [
+      name,
+      route,
+      '(options)',
+      ...alignmentArguments(config.args).map((x) => `<${x}>`),
+      ...Object.keys('optional' in config ? config.optional ?? {} : {}).map(
+        (x) => `<${x}?>`
+      ),
+      ...('rest' in config && config.rest
+        ? `<...${config.rest.placeholder}>`
+        : [])
+    ]
+      .filter((x) => x)
+      .join(' ')
+
   const usage = [
-    name,
+    generateUsage(root.config),
     ...Object.entries(routes)
       .filter(([r]) => (typeof route === 'string' ? r.startsWith(route) : true))
-      .map(([r, { config }]) =>
-        [
-          name,
-          r,
-          ...alignmentArguments(config.args).map((x) => `<${x}>`),
-          ...Object.keys(config.options ?? {}).map((x) => `<${x}?>`),
-          ...('rest' in config && config.rest
-            ? `<...${config.rest.placeholder}>`
-            : [])
-        ].join(' ')
-      )
+      .map(([r, { config }]) => generateUsage(config, r))
   ].join('\n  ')
 
   const options = Object.entries({
@@ -42,17 +49,14 @@ export const help = <
     ...root.config.codes,
     ...config.codes
   })
-    .map(([code, message]) => [`${code.padEnd(3)}`, message].join(' '))
+    .map(([code, message]) => [code.padEnd(3), message].join(' '))
     .join('\n  ')
 
-  return `
-Usage:
-  ${usage}
-
-Options:
-  ${options}
-
-Return Codes:
-  ${codes}
-`
+  return [
+    usage.trim() ? `Usage:\n  ${usage}` : '',
+    options.trim() ? `Options:\n  ${options}` : '',
+    codes.trim() ? `Return Codes:\n  ${codes}` : ''
+  ]
+    .join('\n\n')
+    .trim()
 }
