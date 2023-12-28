@@ -1,6 +1,4 @@
-export type ArgumentDescriptions<
-  T extends string[] = string[]
-> =
+export type ArgumentDescriptions<T extends string[] = string[]> =
   /**
    * @example
    * new Map([
