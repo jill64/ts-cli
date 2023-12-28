@@ -8,7 +8,7 @@
 <!----- END GHOST DOCS BADGES ----->
 
 
-＞ Easy Node CLI creation with opinionated POSIX-like defaults
+＞ Solidly-Typed CLI Application Builder
 
 <!----- END GHOST DOCS HEADER ----->
 
