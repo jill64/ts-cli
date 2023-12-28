@@ -10,7 +10,7 @@ describe('matchRoute', () => {
   }
 
   const match = matchRoute({
-    route: {
+    test: {
       config,
       handler: () => {}
     },
@@ -18,7 +18,7 @@ describe('matchRoute', () => {
       config,
       handler: () => {}
     },
-    ['test start']: {
+    ['test route start']: {
       config,
       handler: () => {}
     }
@@ -37,15 +37,23 @@ describe('matchRoute', () => {
     expect(match(['invalid route'])).toEqual(undefined)
   })
 
-  test('route', () => {
-    expect(match(['-v', 'route'])).toEqual('route')
+  test('test', () => {
+    expect(match(['test', '-v'])).toEqual('test')
+    expect(match(['-v', 'test'])).toEqual(undefined)
   })
 
   test('test route', () => {
-    expect(match(['-v', 'test', 'route'])).toEqual('test route')
+    expect(match(['test', 'route', '-v', 'start'])).toEqual('test route')
+    expect(match(['-v', 'test', 'route'])).toEqual(undefined)
   })
 
-  test('test start', () => {
-    expect(match(['-V', 'test', '--quiet', 'start'])).toEqual('test start')
+  test('test route start', () => {
+    expect(match(['test', 'route', 'start', '--quiet'])).toEqual(
+      'test route start'
+    )
+    expect(match(['-V', 'test', 'route', 'start'])).toEqual(undefined)
+    expect(match(['-V', 'test', '--quiet', 'route', 'start'])).toEqual(
+      undefined
+    )
   })
 })
