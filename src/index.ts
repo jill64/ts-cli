@@ -1,1 +1,1 @@
-export { command } from './command.js'
+export { App } from './App.js'
