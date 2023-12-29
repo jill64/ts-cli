@@ -40,7 +40,6 @@ describe('command-e2e', () => {
         test('test route', () => {
           expect(args.arg2).toBe('arg2-value')
           expect(options?.['test-option']).toBe('test-option-value')
-          expect(options?.['root-option']).toBe('root-option-value')
         })
         fired[1] += 1
       }
@@ -60,12 +59,11 @@ describe('command-e2e', () => {
 
   cmd.run(['', '', 'arg1-value', '-r', 'root-option-value'])
 
-  cmd.invoke('test', {
+  cmd.invoke.test({
     args: {
       arg2: 'arg2-value'
     },
     options: {
-      'root-option': 'root-option-value',
       'test-option': 'test-option-value'
     }
   })
@@ -81,7 +79,7 @@ describe('command-e2e', () => {
     '--test-option-value'
   ])
 
-  cmd.invoke('test start', {})
+  cmd.invoke['test start']({})
 
   cmd.run(['', '', '-V', 'test', '--quiet', 'start'])
 
