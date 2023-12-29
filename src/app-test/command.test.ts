@@ -40,7 +40,6 @@ describe('command-e2e', () => {
         test('test route', () => {
           expect(args.arg2).toBe('arg2-value')
           expect(options?.['test-option']).toBe('test-option-value')
-          expect(options?.['root-option']).toBe('root-option-value')
         })
         fired[1] += 1
       }
@@ -65,7 +64,6 @@ describe('command-e2e', () => {
       arg2: 'arg2-value'
     },
     options: {
-      'root-option': 'root-option-value',
       'test-option': 'test-option-value'
     }
   })

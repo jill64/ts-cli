@@ -3,10 +3,8 @@ import { ParseArgsConfig, parseArgs } from 'node:util'
 import { Config } from './types/Config.js'
 import { ParseArgsOptionConfig } from './types/ParseArgsOptionConfig.js'
 import { ArgumentDescriptions } from './types/config/ArgumentDescriptions.js'
-import { OptionDescriptions } from './types/config/OptionDescriptions.js'
 import { InvokeHandler } from './types/invoke-route/InvokeHandler.js'
 import { InvokeParam } from './types/invoke-route/InvokeParam.js'
-import { MergeConfig } from './types/util/MergeConfig.js'
 
 export class App<
   RC extends Config,
@@ -15,29 +13,33 @@ export class App<
     string,
     {
       config: Config
-      handler: InvokeHandler<MergeConfig<RC, Config>>
+      handler: InvokeHandler<Config>
     }
   >
 > {
-  private config
-  private handler
-  private routes
-  invoke
+  readonly invoke
 
-  constructor(config: RC, handler: RH, routes = {} as RT) {
+  constructor(
+    private readonly config: RC,
+    private readonly handler: RH,
+    private readonly routes = {} as RT
+  ) {
     this.config = config
     this.handler = handler
     this.routes = routes
-    this.invoke = transform(routes, ([k, { handler }]) => [k, handler]) as {
-      [K in keyof RT]: InvokeHandler<MergeConfig<RC, RT[K]['config']>>
+    this.invoke = transform(routes, ([route, { handler }]) => [
+      route,
+      handler
+    ]) as {
+      [K in keyof RT]: InvokeHandler<RT[K]['config']>
     }
   }
 
-  add<
-    T extends string,
-    C extends Config,
-    H extends InvokeHandler<MergeConfig<RC, C>>
-  >(route: T, config: C, handler: H) {
+  add<T extends string, C extends Config, H extends InvokeHandler<C>>(
+    route: T,
+    config: C,
+    handler: H
+  ) {
     return new App<
       RC,
       RH,
@@ -72,40 +74,6 @@ export class App<
     return Object.keys(this.routes)
       .toSorted((a, b) => b.length - a.length)
       .find((route) => input.startsWith(route))
-  }
-
-  private get_merged_config(route: keyof RT) {
-    const root = this.config
-    const config = this.routes[route].config
-
-    return {
-      ...config,
-      options: {
-        ...root.options,
-        ...config.options
-      },
-      codes: {
-        ...root.options,
-        ...config.codes
-      }
-    }
-  }
-
-  private convert_to_native_options(options?: OptionDescriptions) {
-    return transform(options ?? {}, ([k, v]) => [
-      k,
-      {
-        type:
-          'type' in v && (v.type === 'string' || v.type === 'string[]')
-            ? 'string'
-            : 'boolean',
-        multiple:
-          'type' in v && (v.type === 'string[]' || v.type === 'boolean[]')
-            ? true
-            : false,
-        short: v.alias
-      } satisfies ParseArgsOptionConfig
-    ])
   }
 
   private split_args(
@@ -179,10 +147,23 @@ export class App<
   private extract<R extends keyof RT>(
     args: string[],
     route: R
-  ): InvokeParam<MergeConfig<RC, RT[R]['config']>>
+  ): InvokeParam<RT[R]['config']>
   private extract(args: string[], route?: keyof RT): InvokeParam<Config> {
-    const config = route ? this.get_merged_config(route) : this.config
-    const options = this.convert_to_native_options(config.options)
+    const config = route ? this.routes[route].config : this.config
+    const options = transform(config.options ?? {}, ([k, v]) => [
+      k,
+      {
+        type:
+          'type' in v && (v.type === 'string' || v.type === 'string[]')
+            ? 'string'
+            : 'boolean',
+        multiple:
+          'type' in v && (v.type === 'string[]' || v.type === 'boolean[]')
+            ? true
+            : false,
+        short: v.alias
+      } satisfies ParseArgsOptionConfig
+    ])
 
     const alignedArgs = this.alignment_arguments(config.args)
     const alignedOpts = this.alignment_arguments(config.optional)

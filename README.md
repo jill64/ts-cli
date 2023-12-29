@@ -71,9 +71,6 @@ new App(
 
 The `add` function defines a route.
 
-> [!NOTE]  
-> Root `options` and `codes` are inherited by all route.
-
 ```js
 import { App } from '@jill64/ts-cli'
 
@@ -117,16 +114,16 @@ new App(/* ... */).run(process.argv)
 // index.js
 import { App } from '@jill64/ts-cli'
 
-export const { execute, invoke } = new App(/* ... */)
+export const command = new App(/* ... */)
   .add(/* ... */)
   .add(/* ... */)
 ```
 
 ```js
-import { execute, invoke } from 'index.js'
+import { command } from 'index.js'
 
 // `example`
-execute({
+command.execute({
   args: {
     arg1: 'value1',
     arg2: 'value2',
@@ -146,12 +143,12 @@ execute({
 })
 
 // `example test`
-invoke.test({
+command.invoke.test({
   // ...
 })
 
 // `example test start`
-invoke['test start']({
+command.invoke['test start']({
   // ...
 })
 ```

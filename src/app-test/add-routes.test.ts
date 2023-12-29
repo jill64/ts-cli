@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { App } from '../App.js'
+import { App } from '../index.js'
 
 test('add-routes', () => {
   let fired = [0, 0, 0]
