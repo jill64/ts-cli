@@ -8,7 +8,7 @@
 <!----- END GHOST DOCS BADGES ----->
 
 
-＞ Solidly-Typed CLI Application Builder
+＞ Solidly-Typed CLI Router
 
 <!----- END GHOST DOCS HEADER ----->
 
