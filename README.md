@@ -123,7 +123,7 @@ export const { execute, invoke } = new App(/* ... */)
 ```
 
 ```js
-import { invoke } from 'index.js'
+import { execute, invoke } from 'index.js'
 
 // `example`
 execute({
@@ -146,12 +146,12 @@ execute({
 })
 
 // `example test`
-invoke('test', {
+invoke.test({
   // ...
 })
 
 // `example test start`
-invoke('test start', {
+invoke['test start']({
   // ...
 })
 ```

@@ -11,21 +11,26 @@ import { MergeConfig } from './types/util/MergeConfig.js'
 export class App<
   RC extends Config,
   RH extends InvokeHandler<RC>,
-  RT extends {
-    [route: string]: {
+  RT extends Record<
+    string,
+    {
       config: Config
-      handler: InvokeHandler<Config>
+      handler: InvokeHandler<MergeConfig<RC, Config>>
     }
-  }
+  >
 > {
   private config
   private handler
   private routes
+  invoke
 
   constructor(config: RC, handler: RH, routes = {} as RT) {
     this.config = config
     this.handler = handler
     this.routes = routes
+    this.invoke = transform(routes, ([k, { handler }]) => [k, handler]) as {
+      [K in keyof RT]: InvokeHandler<MergeConfig<RC, RT[K]['config']>>
+    }
   }
 
   add<
@@ -33,15 +38,7 @@ export class App<
     C extends Config,
     H extends InvokeHandler<MergeConfig<RC, C>>
   >(route: T, config: C, handler: H) {
-    this.routes = {
-      ...this.routes,
-      [route]: {
-        config,
-        handler
-      }
-    }
-
-    return this as unknown as App<
+    return new App<
       RC,
       RH,
       RT &
@@ -52,21 +49,20 @@ export class App<
             handler: H
           }
         >
-    >
+    >(this.config, this.handler, {
+      ...this.routes,
+      [route]: {
+        config,
+        handler
+      }
+    })
   }
 
   execute(param: InvokeParam<RC>) {
     return this.handler(param)
   }
 
-  invoke<R extends keyof RT, P extends InvokeParam<RT[R]['config']>>(
-    route: R,
-    param: P
-  ) {
-    return this.routes[route].handler(param)
-  }
-
-  private lookup(args: string[]) {
+  private lookup(args: string[]): keyof RT | undefined {
     const input = args.join(' ').trim()
 
     if (!input) {
@@ -75,7 +71,7 @@ export class App<
 
     return Object.keys(this.routes)
       .toSorted((a, b) => b.length - a.length)
-      .find((route) => input.startsWith(route)) as keyof RT | undefined
+      .find((route) => input.startsWith(route))
   }
 
   private get_merged_config(route: keyof RT) {
@@ -179,7 +175,12 @@ export class App<
     return Object.keys(args)
   }
 
-  private extract(args: string[], route?: keyof RT) {
+  private extract(args: string[]): InvokeParam<RC>
+  private extract<R extends keyof RT>(
+    args: string[],
+    route: R
+  ): InvokeParam<MergeConfig<RC, RT[R]['config']>>
+  private extract(args: string[], route?: keyof RT): InvokeParam<Config> {
     const config = route ? this.get_merged_config(route) : this.config
     const options = this.convert_to_native_options(config.options)
 
@@ -214,8 +215,8 @@ export class App<
           result.positionals[alignedArgs.length + index]
         ])
       ),
-      rest: rest
-    } as InvokeParam<RC>
+      rest
+    }
 
     return param
   }
@@ -225,10 +226,8 @@ export class App<
 
     const route = this.lookup(args)
 
-    const handler = route ? this.routes[route].handler : this.handler
-
-    const param = this.extract(args, route)
-
-    return handler(param)
+    return route
+      ? this.invoke[route](this.extract(args, route))
+      : this.execute(this.extract(args))
   }
 }

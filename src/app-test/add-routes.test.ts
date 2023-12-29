@@ -16,8 +16,8 @@ test('add-routes', () => {
 
   cmd.run(['', '', ''])
   cmd.execute({})
-  cmd.invoke('test', {})
-  cmd.invoke('test start', {})
+  cmd.invoke.test({})
+  cmd.invoke['test start']({})
   cmd.run(['', '', 'test'])
   cmd.run(['', '', 'test', 'start'])
 

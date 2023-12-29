@@ -60,7 +60,7 @@ describe('command-e2e', () => {
 
   cmd.run(['', '', 'arg1-value', '-r', 'root-option-value'])
 
-  cmd.invoke('test', {
+  cmd.invoke.test({
     args: {
       arg2: 'arg2-value'
     },
@@ -81,7 +81,7 @@ describe('command-e2e', () => {
     '--test-option-value'
   ])
 
-  cmd.invoke('test start', {})
+  cmd.invoke['test start']({})
 
   cmd.run(['', '', '-V', 'test', '--quiet', 'start'])
 
