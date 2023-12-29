@@ -27,9 +27,9 @@ export class App<
     this.config = config
     this.handler = handler
     this.routes = routes
-    this.invoke = transform(routes, ([route, { handler }]) => [
+    this.invoke = transform(routes, ([route, { config, handler }]) => [
       route,
-      handler
+      (param: InvokeParam<Config>) => handler(param, config)
     ]) as {
       [K in keyof RT]: InvokeHandler<RT[K]['config']>
     }
@@ -61,7 +61,7 @@ export class App<
   }
 
   execute(param: InvokeParam<RC>) {
-    return this.handler(param)
+    return this.handler(param, this.config)
   }
 
   private lookup(args: string[]): keyof RT | undefined {
