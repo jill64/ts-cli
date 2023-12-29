@@ -8,7 +8,7 @@ export type OptionDescriptions = Record<
      * Description of option.
      * @example 'Show help'
      */
-    description?: string
+    description: string
 
     /**
      * Alias of option.
