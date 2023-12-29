@@ -30,6 +30,6 @@ export type InvokeParam<T extends Config> = (T extends {
     rest: RestDescription
   }
     ? {
-        rest?: Partial<string[]>
+        rest?: string[]
       }
     : unknown)
