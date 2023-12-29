@@ -16,8 +16,18 @@ describe('command-e2e', () => {
         }
       }
     },
-    ({ args: { arg1 }, options }) => {
+    ({ args: { arg1 }, options }, config) => {
       test('root', () => {
+        expect(config).toEqual({
+          args: [['arg1', 'arg1 description'] as const],
+          options: {
+            'root-option': {
+              alias: 'r',
+              type: 'string',
+              description: 'root option description'
+            }
+          }
+        })
         expect(arg1).toBe('arg1-value')
         expect(options?.['root-option']).toBe('root-option-value')
       })
