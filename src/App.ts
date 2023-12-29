@@ -17,7 +17,7 @@ export class App<
     }
   >
 > {
-  readonly invoke
+  private readonly _invoke
 
   constructor(
     private readonly config: RC,
@@ -27,12 +27,16 @@ export class App<
     this.config = config
     this.handler = handler
     this.routes = routes
-    this.invoke = transform(routes, ([route, { config, handler }]) => [
+    this._invoke = transform(routes, ([route, { config, handler }]) => [
       route,
       (param: InvokeParam<Config>) => handler(param, config)
     ]) as {
       [K in keyof RT]: InvokeHandler<RT[K]['config']>
     }
+  }
+
+  get invoke() {
+    return this._invoke
   }
 
   add<T extends string, C extends Config, H extends InvokeHandler<C>>(
