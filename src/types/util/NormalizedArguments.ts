@@ -1,5 +1,5 @@
-import { ArgumentDescriptions } from '../describe/ArgumentDescriptions.js'
-import { Empty } from '../literal/Empty.js'
+import { ArgumentDescriptions } from '../config/ArgumentDescriptions.js'
+import { Empty } from '../Empty.js'
 
 export type NormalizedArguments<T extends ArgumentDescriptions | undefined> =
   T extends Map<infer U, string>

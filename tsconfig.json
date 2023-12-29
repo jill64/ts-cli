@@ -6,8 +6,7 @@
     "strict": true,
     "declaration": true,
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true
+    "moduleResolution": "NodeNext"
   },
   "include": ["src"]
 }
