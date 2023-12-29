@@ -33,7 +33,15 @@ export class App<
     C extends Config,
     H extends InvokeHandler<MergeConfig<RC, C>>
   >(route: T, config: C, handler: H) {
-    return new App<
+    this.routes = {
+      ...this.routes,
+      [route]: {
+        config,
+        handler
+      }
+    }
+
+    return this as unknown as App<
       RC,
       RH,
       RT &
@@ -44,13 +52,7 @@ export class App<
             handler: H
           }
         >
-    >(this.config, this.handler, {
-      ...this.routes,
-      [route]: {
-        config,
-        handler
-      }
-    })
+    >
   }
 
   execute(param: InvokeParam<RC>) {
