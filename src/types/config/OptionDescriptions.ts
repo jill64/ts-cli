@@ -1,3 +1,4 @@
+import { OptionAlias } from '../OptionAlias.js'
 import { OptionType } from '../OptionType.js'
 
 export type OptionDescriptions = Record<
@@ -13,7 +14,7 @@ export type OptionDescriptions = Record<
      * Alias of option.
      * @example 'h'
      */
-    alias?: string
+    alias?: OptionAlias
 
     /**
      * Type of option.
