@@ -1,6 +1,6 @@
 {
   "name": "@jill64/ts-cli",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "type": "module",
   "files": [
     "dist",
@@ -33,7 +33,7 @@
     "vitest": "1.2.1"
   },
   "dependencies": {
-    "@jill64/transform": "1.0.0"
+    "@jill64/transform": "1.0.1"
   },
   "homepage": "https://github.com/jill64/ts-cli#readme",
   "license": "MIT",
@@ -47,7 +47,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jill64/ts-cli.git",
-    "image": "https://opengraph.githubassets.com/2969dd415b0a650a0e890541fa728cab2b69d208b7f5439f3e4d8666d481a62a/jill64/ts-cli"
+    "image": "https://opengraph.githubassets.com/12188dde7716050eadd66b0d5f7190eaf1eb6f31f86b04ae0deb5a67d128bdea/jill64/ts-cli"
   },
   "description": "＞ Solidly-Typed CLI Router",
   "publishConfig": {
