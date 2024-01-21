@@ -33,7 +33,7 @@
     "vitest": "1.2.1"
   },
   "dependencies": {
-    "@jill64/transform": "1.0.0"
+    "@jill64/transform": "1.0.1"
   },
   "homepage": "https://github.com/jill64/ts-cli#readme",
   "license": "MIT",
