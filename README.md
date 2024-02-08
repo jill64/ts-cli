@@ -155,6 +155,6 @@ command.invoke['test start']({
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 <!----- END GHOST DOCS FOOTER ----->
