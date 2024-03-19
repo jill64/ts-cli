@@ -1,6 +1,6 @@
 {
   "name": "@jill64/ts-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "files": [
     "dist",
@@ -33,7 +33,7 @@
     "vitest": "1.4.0"
   },
   "dependencies": {
-    "@jill64/transform": "1.0.1"
+    "@jill64/transform": "1.0.2"
   },
   "homepage": "https://github.com/jill64/ts-cli#readme",
   "license": "MIT",
