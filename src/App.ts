@@ -69,7 +69,7 @@ export class App<
   }
 
   private lookup(args: string[]): keyof RT | undefined {
-    const input = args.join(' ').trim()
+    const input = args.filter(x => !x.startsWith('-')).join(' ').trim()
 
     if (!input) {
       return undefined
@@ -91,9 +91,68 @@ export class App<
     const routeDepth = route?.toString()?.split(' ').length ?? 0
     const routed = route ? args.slice(routeDepth) : args
 
+    const stringOptions = Object.keys(options ?? {})
+      .filter((k) => (options ?? {})[k]?.type === 'string')
+      .map((k) => ({
+        short: (options ?? {})[k]?.short,
+        long: k
+      }))
+
+    const sort = (str: string[]): string[] => {
+
+      const { sorted } = str.reduce(
+        (prev, curr) => {
+          if (prev.next_skip) {
+            return {
+              sorted: [...prev.sorted, curr],
+              next_skip: false,
+              index: prev.index
+            }
+          }
+
+          if (
+            stringOptions.some(
+              (o) => `-${o.short}` === curr || `--${o.long}` === curr
+            )
+          ) {
+            return {
+              sorted: [...prev.sorted, curr],
+              next_skip: true,
+              index: prev.index
+            }
+          }
+
+          if (curr.startsWith('-')) {
+            return {
+              sorted: [...prev.sorted, curr],
+              next_skip: false,
+              index: prev.index
+            }
+          }
+
+          return {
+            sorted: [
+              ...prev.sorted.slice(0, prev.index),
+              curr,
+              ...prev.sorted.slice(prev.index)
+            ],
+            next_skip: false,
+            index: prev.index + 1
+          }
+        },
+        {
+          sorted: [] as string[],
+          next_skip: false,
+          index: 0
+        }
+      )
+
+      return sorted
+    }
+
     if (!config.rest?.description) {
       return {
-        truncated: routed,
+        truncated: sort(routed),
         rest: []
       }
     }
@@ -119,10 +178,13 @@ export class App<
 
     const index = (positionals[offset - 1]?.index ?? 0) + 1
     const truncated = routed.slice(0, index)
+
+    const sorted = sort(truncated)
+
     const rest = routed.slice(index)
 
     return {
-      truncated,
+      truncated: sorted,
       rest
     }
   }
