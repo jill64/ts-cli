@@ -312,7 +312,15 @@ export class App<
 
     const param = {
       args: Object.fromEntries(
-        alignedArgs.map((k, index) => [k, result.positionals[index]])
+        alignedArgs.map((k, index) => {
+          const v = result.positionals[index]
+
+          if (!v) {
+            throw new Error(`Missing required argument: ${k}`)
+          }
+
+          return [k, v]
+        })
       ),
       options: transform(config.options ?? {}, ([k]) => [k, result.values[k]]),
       optional: Object.fromEntries(
