@@ -162,9 +162,11 @@ export class App<
     const offset = alignedArgs.length + alignedOpts.length
 
     if (!offset) {
+      const firstOpts = routed.findIndex((x) => x.startsWith('-'))
+      const idx = firstOpts === -1 ? 0 : firstOpts
       return {
-        truncated: [],
-        rest: routed
+        truncated: sort(routed.slice(0, idx)),
+        rest: routed.slice(idx)
       }
     }
 
