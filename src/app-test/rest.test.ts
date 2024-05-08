@@ -26,13 +26,21 @@ describe('rest', () => {
   it('rest', () =>
     new App(
       {
+        options: {
+          short: {
+            alias: 's',
+            type: 'boolean',
+            description: 'short option'
+          }
+        },
         rest: {
           placeholder: 'rest',
           description: 'rest'
         }
       },
-      ({ rest }) => {
-        expect(rest).toEqual(['-s', 'rest', '--rest-option'])
+      ({ options, rest }) => {
+        expect(options).toEqual({ short: true })
+        expect(rest).toEqual(['rest', '--rest-option'])
       }
     ).run(['', '', '-s', 'rest', '--rest-option']))
 
