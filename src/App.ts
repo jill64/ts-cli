@@ -162,11 +162,66 @@ export class App<
     const offset = alignedArgs.length + alignedOpts.length
 
     if (!offset) {
-      const firstOpts = routed.findIndex((x) => x.startsWith('-'))
-      const idx = firstOpts === -1 ? 0 : firstOpts
+      const { truncated, rest } = routed.reduce(
+        (prev, curr) => {
+          if (prev.done) {
+            return {
+              truncated: prev.truncated,
+              rest: [...prev.rest, curr],
+              next_skip: false,
+              done: true
+            }
+          }
+
+          if (prev.next_skip) {
+            return {
+              truncated: [...prev.truncated, curr],
+              rest: [],
+              next_skip: false,
+              done: false
+            }
+          }
+
+          if (
+            stringOptions.some(
+              (o) => `-${o.short}` === curr || `--${o.long}` === curr
+            )
+          ) {
+            return {
+              truncated: [...prev.truncated, curr],
+              rest: [],
+              next_skip: true,
+              done: false
+            }
+          }
+
+          if (curr.startsWith('-')) {
+            return {
+              truncated: [...prev.truncated, curr],
+              rest: [],
+              next_skip: false,
+              done: false
+            }
+          }
+
+          return {
+            truncated: prev.truncated,
+            rest: [...prev.rest, curr],
+            next_skip: false,
+            done: true
+          }
+        },
+        {
+          truncated: [] as string[],
+          rest: [] as string[],
+          next_skip: false,
+          done: false
+        }
+      )
+
       return {
-        truncated: sort(routed.slice(0, idx)),
-        rest: routed.slice(idx)
+        truncated,
+        rest
       }
     }
 
