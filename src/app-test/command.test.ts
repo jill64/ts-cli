@@ -39,6 +39,11 @@ describe('command-e2e', () => {
       {
         args: [['arg2', 'arg2 description']],
         options: {
+          'root-option': {
+            alias: 'r',
+            type: 'string',
+            description: 'root option description'
+          },
           'test-option': {
             alias: 't',
             type: 'string',
@@ -54,9 +59,26 @@ describe('command-e2e', () => {
         fired[1] += 1
       }
     )
-    .add('test start', {}, () => {
-      fired[2] += 1
-    })
+    .add(
+      'test start',
+      {
+        options: {
+          version: {
+            alias: 'V',
+            type: 'boolean',
+            description: 'Show version'
+          },
+          quiet: {
+            alias: 'q',
+            type: 'boolean',
+            description: 'Quiet mode'
+          }
+        }
+      },
+      () => {
+        fired[2] += 1
+      }
+    )
 
   cmd.execute({
     args: {
@@ -86,7 +108,7 @@ describe('command-e2e', () => {
     'root-option-value',
     'arg2-value',
     '-t',
-    '--test-option-value'
+    'test-option-value'
   ])
 
   cmd.invoke['test start']({})
