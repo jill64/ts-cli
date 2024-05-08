@@ -69,7 +69,10 @@ export class App<
   }
 
   private lookup(args: string[]): keyof RT | undefined {
-    const input = args.filter(x => !x.startsWith('-')).join(' ').trim()
+    const input = args
+      .filter((x) => !x.startsWith('-'))
+      .join(' ')
+      .trim()
 
     if (!input) {
       return undefined
@@ -99,7 +102,6 @@ export class App<
       }))
 
     const sort = (str: string[]): string[] => {
-
       const { sorted } = str.reduce(
         (prev, curr) => {
           if (prev.next_skip) {
