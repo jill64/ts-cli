@@ -30,7 +30,7 @@
     "@jill64/prettier-config": "1.0.0",
     "@types/node": "20.14.11",
     "typescript": "5.5.3",
-    "vitest": "2.0.3"
+    "vitest": "2.0.4"
   },
   "dependencies": {
     "@jill64/transform": "1.0.3"
