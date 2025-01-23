@@ -47,7 +47,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jill64/ts-cli.git",
-    "image": "https://opengraph.githubassets.com/f88c8411d8ac775695a0b18c27ba1aabadd34940e2beb2eee7b192eaf7af7bac/jill64/ts-cli"
+    "image": "https://opengraph.githubassets.com/d6ba1729423417aff26c2fa58deae799ba99e26f64df56399b40596d5f661f0b/jill64/ts-cli"
   },
   "description": "＞ Solidly-Typed CLI Router",
   "publishConfig": {
