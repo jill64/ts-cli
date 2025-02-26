@@ -26,7 +26,7 @@
   },
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
-    "@jill64/eslint-config-ts": "2.0.12",
+    "@jill64/eslint-config-ts": "2.0.13",
     "@jill64/prettier-config": "1.0.0",
     "@types/node": "22.13.0",
     "typescript": "5.7.3",
@@ -47,7 +47,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jill64/ts-cli.git",
-    "image": "https://opengraph.githubassets.com/21a1ccd9698a228a073323cfbc89684ca5b18402b625cd2474e2ea54dfcc4198/jill64/ts-cli"
+    "image": "https://opengraph.githubassets.com/31d362023b69a1c1be06f804fc9df57e9ce6b674e3db707c43c361907e783158/jill64/ts-cli"
   },
   "description": "＞ Solidly-Typed CLI Router",
   "publishConfig": {
