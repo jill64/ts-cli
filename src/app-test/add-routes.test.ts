@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest'
+import { expect, test } from 'bun:test'
 import { App } from '../index.js'
 
 test('add-routes', () => {
