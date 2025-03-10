@@ -17,12 +17,12 @@
     }
   },
   "scripts": {
-    "dev": "npx tsx src/command-test/mock.test.ts",
-    "build": "tsc && npx publint",
-    "prepack": "npm run build",
-    "test": "vitest",
-    "lint": "npx eslint . && npx depcheck",
-    "format": "npx prettier -w ."
+    "dev": "bun src/command-test/mock.test.ts",
+    "build": "tsc && bunx publint",
+    "prepack": "bun run build",
+    "test": "bun test",
+    "lint": "eslint .",
+    "format": "bunx prettier -w ."
   },
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
@@ -30,7 +30,8 @@
     "@jill64/prettier-config": "1.0.0",
     "@types/node": "22.13.0",
     "typescript": "5.8.2",
-    "vitest": "3.0.8"
+    "@types/bun": "1.2.4",
+    "eslint": "9.22.0"
   },
   "dependencies": {
     "@jill64/transform": "1.0.4"

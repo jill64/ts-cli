@@ -1,5 +1,5 @@
 import { describe } from 'node:test'
-import { expect, test } from 'vitest'
+import { expect, test } from 'bun:test'
 import { App } from '../App.js'
 
 describe('command-e2e', () => {
