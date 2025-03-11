@@ -30,7 +30,7 @@
     "@jill64/prettier-config": "1.0.0",
     "@types/node": "22.13.10",
     "typescript": "5.8.2",
-    "@types/bun": "1.2.4",
+    "@types/bun": "1.2.5",
     "eslint": "9.22.0"
   },
   "dependencies": {
