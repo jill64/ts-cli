@@ -4,7 +4,7 @@
     "": {
       "name": "@jill64/ts-cli",
       "dependencies": {
-        "@jill64/transform": "1.0.4",
+        "@jill64/transform": "1.0.5",
       },
       "devDependencies": {
         "@jill64/eslint-config-ts": "2.0.34",
@@ -47,7 +47,7 @@
 
     "@jill64/prettier-config": ["@jill64/prettier-config@1.0.0", "", {}, "sha512-KuryQDStqkQ/zKR9Q7JXiW927m7SvwirQo6Oohss1Q9cRyYS2JOyhtcBavZnoEhH4pHJkaigfjUXA3em4n6egA=="],
 
-    "@jill64/transform": ["@jill64/transform@1.0.4", "", {}, "sha512-SHziIwR5oa+2M2udgvHUdqleimbif1F3QAMQA+Ta/xPgv8DED3aFnwA0NPtNQz6v9X3RBI4VICEYCFSpqrqZ7A=="],
+    "@jill64/transform": ["@jill64/transform@1.0.5", "", {}, "sha512-NfT76JUsIATNP3qBBbgUGETA97NVyR0A1EgmdHDpg1MjJH61mtSI1CLdu2bOjqYsP3LVOBZQVdGJZ74jaeKiiQ=="],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
