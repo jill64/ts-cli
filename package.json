@@ -34,7 +34,7 @@
     "eslint": "9.23.0"
   },
   "dependencies": {
-    "@jill64/transform": "1.0.4"
+    "@jill64/transform": "1.0.5"
   },
   "homepage": "https://github.com/jill64/ts-cli#readme",
   "license": "MIT",
